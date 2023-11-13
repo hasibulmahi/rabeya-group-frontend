@@ -54,6 +54,7 @@ const AddClient = () => {
     } else if (!agriment) {
       return toast("Please choose agriment picture");
     } else {
+      
       let userData = {
         userName: userName,
         name: name,
@@ -77,6 +78,7 @@ const AddClient = () => {
       dispatch(clearError());
     }
   }, [success, error]);
+
   return (
     <div className="flex justify-center pt-20 mb-5">
       <MetaData title={"Create Client"} />

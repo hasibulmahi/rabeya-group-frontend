@@ -1,11 +1,20 @@
 import axios from "axios";
 import { apiBase } from "../../config";
+const localStorageUserData = localStorage.getItem("userData")
+  ? JSON.parse(localStorage.getItem("userData"))
+  : null;
+
+console.log("localStorageUserData", localStorageUserData);
 
 export const createEmployee = (userData) => async (dispatch) => {
   try {
     dispatch({ type: "CreateEmployeeRequest" });
-    const config = { headers: { "Content-Type": "multipart/form-data" } };
-
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorageUserData.authToken}`,
+      },
+    };
     const { data } = await axios.post(
       apiBase + "/api/v1/manager/create",
       userData,
@@ -24,8 +33,15 @@ export const getEmployee = (keyword) => async (dispatch) => {
   try {
     dispatch({ type: "GetEmployeeRequest" });
 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorageUserData.authToken}`,
+      },
+    };
+
     const { data } = await axios.get(
-      apiBase + `/api/v1/get/manager?keyword=${keyword}`
+      apiBase + `/api/v1/get/manager?keyword=${keyword}`,
+      config
     );
     dispatch({ type: "GetEmployeeSuccess", payload: data });
   } catch (err) {
@@ -86,13 +102,19 @@ export const deleteEmployee = (id) => async (dispatch) => {
 export const createClient = (userData) => async (dispatch) => {
   try {
     dispatch({ type: "CreateClientRequest" });
-    const config = { headers: { "Content-Type": "multipart/form-data" } };
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorageUserData.authToken}`,
+      },
+    };
 
     const { data } = await axios.post(
       apiBase + "/api/v1/client/create",
       userData,
       config
     );
+
     dispatch({ type: "CreateClientSuccess", payload: data });
   } catch (err) {
     dispatch({
@@ -105,10 +127,17 @@ export const createClient = (userData) => async (dispatch) => {
 export const getClient = (keyword) => async (dispatch) => {
   try {
     dispatch({ type: "GetClientRequest" });
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorageUserData.authToken}`,
+      },
+    };
 
     const { data } = await axios.get(
-      apiBase + `/api/v1/get/client?keyword=${keyword}`
+      apiBase + `/api/v1/get/client?keyword=${keyword}`,
+      config
     );
+    // const { data } = await axios.get(apiBase + `/api/v1/get/client`, config);
     dispatch({ type: "GetClientSuccess", payload: data });
   } catch (err) {
     dispatch({
@@ -196,8 +225,12 @@ export const getProjectClient = () => async (dispatch) => {
 export const createProject = (userData) => async (dispatch) => {
   try {
     dispatch({ type: "CreateProjectRequest" });
-    const config = { headers: { "Content-Type": "multipart/form-data" } };
-
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorageUserData.authToken}`,
+      },
+    };
     const { data } = await axios.post(
       apiBase + "/api/v1/project/create",
       userData,
@@ -216,8 +249,15 @@ export const getProject = (keyword) => async (dispatch) => {
   try {
     dispatch({ type: "GetProjectRequest" });
 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorageUserData.authToken}`,
+      },
+    };
+
     const { data } = await axios.get(
-      apiBase + `/api/v1/get/project?keyword=${keyword}`
+      apiBase + `/api/v1/get/project?keyword=${keyword}`,
+      config
     );
     dispatch({ type: "GetProjectSuccess", payload: data });
   } catch (err) {

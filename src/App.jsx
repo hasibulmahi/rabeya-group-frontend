@@ -50,9 +50,20 @@ function App() {
   //Set Role Type for Forgot Authentication
   const [role, setRole] = useState("Admin");
   const [roleType, setRoleType] = useState(true);
+  const user = localStorage.getItem("userData")
+    ? JSON.parse(localStorage.getItem("userData"))
+    : null;
 
   //Show Sidebar
   const [showSidebar, setShowSidebar] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setRole(user.role);
+    }
+  }, [user]);
+
+  console.log("role", role);
 
   useEffect(() => {
     dispatch(loadUser());

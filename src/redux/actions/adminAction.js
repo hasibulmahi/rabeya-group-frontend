@@ -1,5 +1,8 @@
 import axios from "axios";
 import { apiBase } from "../../config";
+const localStorageUserData = localStorage.getItem("userData")
+  ? JSON.parse(localStorage.getItem("userData"))
+  : null;
 
 export const getRevenue = (year) => async (dispatch) => {
   try {
@@ -29,8 +32,15 @@ export const getAllProject = (keyword) => async (dispatch) => {
   try {
     dispatch({ type: "AllProjectRequest" });
 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorageUserData.authToken}`,
+      },
+    };
+
     const { data } = await axios.get(
-      apiBase + `/api/v1/all/project?keyword=${keyword}`
+      apiBase + `/api/v1/all/project?keyword=${keyword}`,
+      config
     );
     dispatch({ type: "AllProjectSuccess", payload: data.projects });
   } catch (err) {

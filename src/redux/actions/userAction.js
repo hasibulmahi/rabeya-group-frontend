@@ -1,6 +1,9 @@
 import axios from "axios";
 import { apiBase } from "../../config";
 import { isEmpty } from "lodash";
+const localStorageUserData = localStorage.getItem("userData")
+  ? JSON.parse(localStorage.getItem("userData"))
+  : null;
 
 export const loginUser = (userData) => async (dispatch) => {
   try {
@@ -14,7 +17,13 @@ export const loginUser = (userData) => async (dispatch) => {
       config
     );
     if (data) {
-      localStorage.setItem("userData", JSON.stringify(data?.user));
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          ...data?.user,
+          authToken: data.authToken,
+        })
+      );
     }
     dispatch({ type: "LoginSuccess", payload: data.user });
   } catch (err) {

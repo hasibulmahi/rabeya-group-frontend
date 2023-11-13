@@ -12,6 +12,8 @@ const Navbar = ({ showSidebar, setShowSidebar }) => {
     ? JSON.parse(localStorage.getItem("userData"))
     : null;
 
+  console.log("user", user);
+
   return (
     <>
       {user && (
