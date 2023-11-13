@@ -120,6 +120,14 @@ const AdminDashboard = () => {
     dispatch(getTotalDeposit());
     dispatch(getTotalWithdraw());
   }, [monRevenue]);
+
+  // useEffect(() => {
+  //   dispatch(loadUser());
+  //   dispatch(getAllProject());
+  //   dispatch(getTopCustomer());
+  //   dispatch(getUnpaidCustomer());
+  // }, [user]);
+
   return (
     <>
       <MetaData title={"Admin Dashboard"} />

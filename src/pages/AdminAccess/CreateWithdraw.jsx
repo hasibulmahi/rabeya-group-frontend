@@ -37,6 +37,8 @@ const CreateWithdraw = () => {
   useEffect(() => {
     if (success) {
       toast(success);
+      setTitle("");
+      setAmount("");
     }
     if (error) {
       toast(error);
@@ -53,6 +55,7 @@ const CreateWithdraw = () => {
           <div className="my-2">
             <label>Title</label>
             <input
+              value={title}
               type="text"
               placeholder="Enter a title"
               className="w-full px-2 py-2 border-black border-2 rounded-lg border-solid"
@@ -67,6 +70,7 @@ const CreateWithdraw = () => {
           <div className="my-2">
             <label>Amount</label>
             <input
+              value={amount}
               type="text"
               placeholder="Enter deposit amount"
               className="w-full px-2 py-2 border-black border-2 rounded-lg border-solid"

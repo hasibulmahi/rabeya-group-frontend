@@ -16,7 +16,7 @@ const CreateDeposit = () => {
   const { success, error, payloading } = useSelector((state) => state.payment);
 
   const [title, setTitle] = useState("");
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState("");
 
   const [errTitle, setErrTitle] = useState("");
   const [errAmount, setErrAmount] = useState(" ");
@@ -37,7 +37,10 @@ const CreateDeposit = () => {
   };
   useEffect(() => {
     if (success) {
+      console.log("inside clear success");
       toast(success);
+      setTitle("");
+      setAmount("");
       dispatch(clearSuccess());
     }
     if (error) {
@@ -55,6 +58,7 @@ const CreateDeposit = () => {
           <div className="my-2">
             <label>Title</label>
             <input
+              value={title}
               type="text"
               placeholder="Enter a title"
               className="w-full px-2 py-2 border-black border-2 rounded-lg border-solid"
@@ -69,6 +73,7 @@ const CreateDeposit = () => {
           <div className="my-2">
             <label>Amount</label>
             <input
+              value={amount}
               type="text"
               placeholder="Enter deposit amount"
               className="w-full px-2 py-2 border-black border-2 rounded-lg border-solid"

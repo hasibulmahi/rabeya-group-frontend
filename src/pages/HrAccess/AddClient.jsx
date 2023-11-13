@@ -54,7 +54,6 @@ const AddClient = () => {
     } else if (!agriment) {
       return toast("Please choose agriment picture");
     } else {
-      
       let userData = {
         userName: userName,
         name: name,

@@ -65,13 +65,6 @@ function App() {
 
   console.log("role", role);
 
-  useEffect(() => {
-    dispatch(loadUser());
-    // dispatch(getRevenue(year));
-    dispatch(getAllProject());
-    dispatch(getTopCustomer());
-    dispatch(getUnpaidCustomer());
-  }, [dispatch]);
   return (
     <div>
       <ToastContainer />
