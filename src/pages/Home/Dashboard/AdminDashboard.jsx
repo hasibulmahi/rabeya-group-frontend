@@ -11,6 +11,7 @@ import {
   getTotalDeposit,
   getTotalWithdraw,
 } from "../../../redux/actions/adminAction";
+import { isEmpty } from "lodash";
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,6 @@ const AdminDashboard = () => {
   const { topcustomer, unpaidcustomer } = useSelector(
     (state) => state.customer
   );
-  console.log(topcustomer);
 
   const { projects } = useSelector((state) => state.projects);
   const {
@@ -115,11 +115,16 @@ const AdminDashboard = () => {
         },
       ],
     });
-    dispatch(getRevenue());
-    dispatch(getMonthlyRevenue());
-    dispatch(getTotalDeposit());
-    dispatch(getTotalWithdraw());
   }, [monRevenue]);
+
+  useEffect(() => {
+    if (!isEmpty(user)) {
+      dispatch(getRevenue());
+      dispatch(getMonthlyRevenue());
+      dispatch(getTotalDeposit());
+      dispatch(getTotalWithdraw());
+    }
+  }, []);
 
   // useEffect(() => {
   //   dispatch(loadUser());

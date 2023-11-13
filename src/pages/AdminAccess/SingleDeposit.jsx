@@ -15,6 +15,12 @@ const SingleDeposit = ({ val }) => {
   const { success, error, dpdloading } = useSelector(
     (state) => state.deletepayment
   );
+  const {
+    success: dpdSuccess,
+    error: dpdError,
+    dpdloading: ddLoading,
+    isLoaded,
+  } = useSelector((state) => state.dpDeposite);
   //To Local String
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -29,6 +35,7 @@ const SingleDeposit = ({ val }) => {
       dispatch(clearError());
     }
   }, [success, error]);
+
   return (
     <div className="flex justify-between text-white py-1 w-full">
       <p className="border-2 border-slate-100  text-center py-2 rounded-lg w-6/12 md:w-4/12">

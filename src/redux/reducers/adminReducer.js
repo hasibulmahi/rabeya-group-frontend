@@ -145,19 +145,29 @@ export const getPaymentReducer = createReducer(initialState, {
   },
 });
 
-export const deletePaymentReducer = createReducer(initialState, {
+export const deleteDepositReducer = createReducer(initialState, {
   DeleteDepositRequest: (state) => {
     state.dpdloading = true;
   },
   DeleteDepositSuccess: (state, action) => {
     state.dpdloading = false;
     state.message = action.payload.message;
+    state.isLoaded = true;
+    state.success = action.payload;
   },
   DeleteDepositFail: (state, action) => {
     state.dpdloading = false;
     state.error = action.payload;
   },
+  ClearErrors: (state) => {
+    state.error = null;
+  },
+  ClearSuccess: (state) => {
+    state.success = null;
+  },
+});
 
+export const deletePaymentReducer = createReducer(initialState, {
   DeleteWithdrawRequest: (state) => {
     state.dpwloading = true;
   },

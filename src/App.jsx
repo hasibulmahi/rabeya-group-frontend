@@ -63,8 +63,6 @@ function App() {
     }
   }, [user]);
 
-  console.log("role", role);
-
   return (
     <div>
       <ToastContainer />

@@ -159,7 +159,10 @@ export const deleteDeposit = (id) => async (dispatch) => {
       apiBase + `/api/v1/delete/deposit/${id}`,
       config
     );
-    dispatch({ type: "DeleteDepositSuccess", payload: data });
+    if (data) {
+      console.log("data is", data);
+      dispatch({ type: "DeleteDepositSuccess", payload: data });
+    }
   } catch (err) {
     dispatch({
       type: "DeleteDepositFail",
