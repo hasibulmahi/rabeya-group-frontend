@@ -11,8 +11,10 @@ import {
   getTotalDeposit,
   getTotalWithdraw,
 } from "../../../redux/actions/adminAction";
+import { isEmpty } from "lodash";
 
 const HrDashboard = () => {
+  const [loaded, setLoaded] = useState(true);
   const dispatch = useDispatch();
   const user = localStorage.getItem("userData")
     ? JSON.parse(localStorage.getItem("userData"))
@@ -114,11 +116,21 @@ const HrDashboard = () => {
         },
       ],
     });
+    // dispatch(getRevenue());
+    // dispatch(getMonthlyRevenue());
+    // dispatch(getTotalDeposit());
+    // dispatch(getTotalWithdraw());
+  }, [monRevenue]);
+
+  useEffect(() => {
     dispatch(getRevenue());
     dispatch(getMonthlyRevenue());
     dispatch(getTotalDeposit());
     dispatch(getTotalWithdraw());
-  }, [monRevenue]);
+  }, []);
+
+  console.log("inside hr dashboard");
+
   return (
     <>
       <MetaData title={"Hr Dashboard"} />

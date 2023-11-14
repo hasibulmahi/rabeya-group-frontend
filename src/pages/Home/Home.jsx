@@ -12,7 +12,6 @@ const Home = () => {
   const user = localStorage.getItem("userData")
     ? JSON.parse(localStorage.getItem("userData"))
     : null;
-
   if (user.role === "Admin") {
     return <AdminDashboard />;
   } else if (user.role === "Hr") {

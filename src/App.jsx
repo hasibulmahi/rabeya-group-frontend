@@ -50,7 +50,7 @@ function App() {
   //Set Role Type for Forgot Authentication
   const [role, setRole] = useState("Admin");
   const [roleType, setRoleType] = useState(true);
-  const user = localStorage.getItem("userData")
+  const currentUser = localStorage.getItem("userData")
     ? JSON.parse(localStorage.getItem("userData"))
     : null;
 
@@ -58,10 +58,13 @@ function App() {
   const [showSidebar, setShowSidebar] = useState(true);
 
   useEffect(() => {
-    if (user) {
-      setRole(user.role);
+    if (currentUser) {
+      setRole(currentUser.role);
+      // dispatch({ type: "LoginSuccess", payload: user });
     }
-  }, [user]);
+  }, [currentUser]);
+
+  console.log("currentUser", currentUser);
 
   return (
     <div>
@@ -88,7 +91,7 @@ function App() {
         <Route
           path="/"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <Home />
             </ProtectedRoute>
           }
@@ -96,7 +99,7 @@ function App() {
         <Route
           path="/create/employee"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Hr">
                 <AddEmployee />
               </RoleRoute>
@@ -106,7 +109,7 @@ function App() {
         <Route
           path="/all/employee"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Hr">
                 <AllEmployee />
               </RoleRoute>
@@ -116,7 +119,7 @@ function App() {
         <Route
           path="/employee/:id"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Hr">
                 <SingleEmployee />
               </RoleRoute>
@@ -126,7 +129,7 @@ function App() {
         <Route
           path="/update/employee/:id"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Hr">
                 <UpdateEmployee />
               </RoleRoute>
@@ -136,7 +139,7 @@ function App() {
         <Route
           path="/create/project"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Hr">
                 <AddProject />
               </RoleRoute>
@@ -147,7 +150,7 @@ function App() {
           exact
           path="/all/project"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Hr">
                 <AllProject />
               </RoleRoute>
@@ -158,7 +161,7 @@ function App() {
           exact
           path="/project/:id"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Hr">
                 <SingleProject />
               </RoleRoute>
@@ -169,7 +172,7 @@ function App() {
           exact
           path="/create/client"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Hr">
                 <AddClient />
               </RoleRoute>
@@ -179,7 +182,7 @@ function App() {
         <Route
           path="/all/client"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Hr">
                 <AllClient />
               </RoleRoute>
@@ -189,7 +192,7 @@ function App() {
         <Route
           path="/client/:id"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Hr">
                 <SingleClient />
               </RoleRoute>
@@ -199,7 +202,7 @@ function App() {
         <Route
           path="/update/client/:id"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Hr">
                 <UpdateClient />
               </RoleRoute>
@@ -210,7 +213,7 @@ function App() {
           exact
           path="/salary/distribution"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Hr">
                 <SalaryDistribution />
               </RoleRoute>
@@ -221,7 +224,7 @@ function App() {
           exact
           path="/notification"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Hr">
                 <Notification />
               </RoleRoute>
@@ -233,7 +236,7 @@ function App() {
           exact
           path="/create/deposit"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Admin">
                 <CreateDeposit />
               </RoleRoute>
@@ -244,7 +247,7 @@ function App() {
           exact
           path="/create/withdraw"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Admin">
                 <CreateWithdraw />
               </RoleRoute>
@@ -255,7 +258,7 @@ function App() {
           exact
           path="/payment/history"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <RoleRoute role="Admin">
                 <PaymentHistory />
               </RoleRoute>

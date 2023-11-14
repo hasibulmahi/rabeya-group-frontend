@@ -1,5 +1,6 @@
 import axios from "axios";
 import { apiBase } from "../../config";
+import { isEmpty } from "lodash";
 const localStorageUserData = localStorage.getItem("userData")
   ? JSON.parse(localStorage.getItem("userData"))
   : null;
@@ -9,12 +10,14 @@ export const getRevenue = (year) => async (dispatch) => {
     dispatch({ type: "RevenueRequest" });
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${localStorageUserData?.authToken}`,
       },
     };
 
     const { data } = await axios.get(apiBase + `/api/v1/total/revenue`, config);
-    dispatch({ type: "RevenueSuccess", payload: data });
+    if (data) {
+      dispatch({ type: "RevenueSuccess", payload: data });
+    }
   } catch (err) {
     dispatch({ type: "RevenueFail", payload: err.response.data.message });
   }
@@ -26,15 +29,28 @@ export const getMonthlyRevenue = () => async (dispatch) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${localStorageUserData?.authToken}`,
       },
     };
+
+    if (!isEmpty(localStorageUserData)) {
+      const revenueApi = await axios
+        .get(apiBase + `/api/v1/monthly/revenue`, config)
+        .then((response) => {
+          console.log("response", response);
+        })
+        .catch((err) => console.log(err));
+
+      console.log("revenueApi", revenueApi);
+    }
 
     const { data } = await axios.get(
       apiBase + `/api/v1/monthly/revenue`,
       config
     );
-    dispatch({ type: "MonthlyRevenueSuccess", payload: data });
+    if (data) {
+      dispatch({ type: "MonthlyRevenueSuccess", payload: data });
+    }
   } catch (err) {
     dispatch({
       type: "MonthlyRevenueFail",
@@ -48,7 +64,7 @@ export const getAllProject = (keyword) => async (dispatch) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${localStorageUserData?.authToken}`,
       },
     };
 
@@ -68,7 +84,7 @@ export const adminDeposit = (userData) => async (dispatch) => {
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${localStorageUserData?.authToken}`,
       },
     };
     const { data } = await axios.post(
@@ -88,7 +104,7 @@ export const adminWithdraw = (userData) => async (dispatch) => {
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${localStorageUserData?.authToken}`,
       },
     };
     const { data } = await axios.post(
@@ -108,7 +124,7 @@ export const getAllDeposit = () => async (dispatch) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${localStorageUserData?.authToken}`,
       },
     };
 
@@ -128,7 +144,7 @@ export const getAllWithdraw = () => async (dispatch) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${localStorageUserData?.authToken}`,
       },
     };
 
@@ -151,7 +167,7 @@ export const deleteDeposit = (id) => async (dispatch) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${localStorageUserData?.authToken}`,
       },
     };
 
@@ -176,7 +192,7 @@ export const deleteWithdraw = (id) => async (dispatch) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${localStorageUserData?.authToken}`,
       },
     };
 
@@ -199,7 +215,7 @@ export const getTopCustomer = () => async (dispatch) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${localStorageUserData?.authToken}`,
       },
     };
 
@@ -218,7 +234,7 @@ export const getUnpaidCustomer = () => async (dispatch) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${localStorageUserData?.authToken}`,
       },
     };
 
@@ -249,14 +265,16 @@ export const getTotalDeposit = () => async (dispatch) => {
     };
 
     const { data } = await axios.get(apiBase + `/api/v1/total/deposit`, config);
-    dispatch({
-      type: "TotalDepositSuccess",
-      payload: data,
-    });
+    if (data) {
+      dispatch({
+        type: "TotalDepositSuccess",
+        payload: data,
+      });
+    }
   } catch (err) {
     dispatch({
       type: "TotalDepositFail",
-      payload: err.response.data.message,
+      payload: err?.response?.data?.message,
     });
   }
 };
@@ -281,7 +299,7 @@ export const getTotalWithdraw = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: "TotalWithdrawFail",
-      payload: err.response.data.message,
+      payload: err?.response?.data?.message,
     });
   }
 };
