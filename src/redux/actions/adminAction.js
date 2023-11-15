@@ -1,16 +1,19 @@
 import axios from "axios";
 import { apiBase } from "../../config";
 import { isEmpty } from "lodash";
+
 const localStorageUserData = localStorage.getItem("userData")
   ? JSON.parse(localStorage.getItem("userData"))
   : null;
 
-export const getRevenue = (year) => async (dispatch) => {
+export const getRevenue = (token) => async (dispatch) => {
   try {
+    console.log("localStorageUserData?.authToken", token);
     dispatch({ type: "RevenueRequest" });
+
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData?.authToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -27,15 +30,9 @@ export const getMonthlyRevenue = () => async (dispatch) => {
   try {
     dispatch({ type: "MontlyRevenueRequest" });
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorageUserData?.authToken}`,
-      },
-    };
-
     if (!isEmpty(localStorageUserData)) {
       const revenueApi = await axios
-        .get(apiBase + `/api/v1/monthly/revenue`, config)
+        .get(apiBase + `/api/v1/monthly/revenue`)
         .then((response) => {
           console.log("response", response);
         })
@@ -54,7 +51,7 @@ export const getMonthlyRevenue = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: "MonthlyRevenueFail",
-      payload: err.response.data.message,
+      payload: err?.response?.data?.message,
     });
   }
 };
@@ -62,15 +59,8 @@ export const getAllProject = (keyword) => async (dispatch) => {
   try {
     dispatch({ type: "AllProjectRequest" });
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorageUserData?.authToken}`,
-      },
-    };
-
     const { data } = await axios.get(
-      apiBase + `/api/v1/all/project?keyword=${keyword}`,
-      config
+      apiBase + `/api/v1/all/project?keyword=${keyword}`
     );
     dispatch({ type: "AllProjectSuccess", payload: data.projects });
   } catch (err) {
@@ -84,7 +74,6 @@ export const adminDeposit = (userData) => async (dispatch) => {
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${localStorageUserData?.authToken}`,
       },
     };
     const { data } = await axios.post(
@@ -104,7 +93,6 @@ export const adminWithdraw = (userData) => async (dispatch) => {
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${localStorageUserData?.authToken}`,
       },
     };
     const { data } = await axios.post(
@@ -142,16 +130,7 @@ export const getAllWithdraw = () => async (dispatch) => {
   try {
     dispatch({ type: "GetAdminWithdrawRequest" });
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorageUserData?.authToken}`,
-      },
-    };
-
-    const { data } = await axios.get(
-      apiBase + `/api/v1/admin/withdraw`,
-      config
-    );
+    const { data } = await axios.get(apiBase + `/api/v1/admin/withdraw`);
     dispatch({ type: "GetAdminWithdrawSuccess", payload: data.adminWithdraw });
   } catch (err) {
     dispatch({
@@ -165,15 +144,8 @@ export const deleteDeposit = (id) => async (dispatch) => {
   try {
     dispatch({ type: "DeleteDepositRequest" });
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorageUserData?.authToken}`,
-      },
-    };
-
     const { data } = await axios.delete(
-      apiBase + `/api/v1/delete/deposit/${id}`,
-      config
+      apiBase + `/api/v1/delete/deposit/${id}`
     );
     if (data) {
       console.log("data is", data);
@@ -190,15 +162,8 @@ export const deleteWithdraw = (id) => async (dispatch) => {
   try {
     dispatch({ type: "DeleteWithdrawRequest" });
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorageUserData?.authToken}`,
-      },
-    };
-
     const { data } = await axios.delete(
-      apiBase + `/api/v1/delete/withdraw/${id}`,
-      config
+      apiBase + `/api/v1/delete/withdraw/${id}`
     );
     dispatch({ type: "DeleteWithdrawSuccess", payload: data });
   } catch (err) {
@@ -213,13 +178,7 @@ export const getTopCustomer = () => async (dispatch) => {
   try {
     dispatch({ type: "TopCustomerRequest" });
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorageUserData?.authToken}`,
-      },
-    };
-
-    const { data } = await axios.get(apiBase + `/api/v1/top/customer`, config);
+    const { data } = await axios.get(apiBase + `/api/v1/top/customer`);
     dispatch({ type: "TopCustomerSuccess", payload: data.topCustomer });
   } catch (err) {
     dispatch({
@@ -232,16 +191,7 @@ export const getUnpaidCustomer = () => async (dispatch) => {
   try {
     dispatch({ type: "TopUnpaidCustomerRequest" });
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorageUserData?.authToken}`,
-      },
-    };
-
-    const { data } = await axios.get(
-      apiBase + `/api/v1/top/unpaid/customer`,
-      config
-    );
+    const { data } = await axios.get(apiBase + `/api/v1/top/unpaid/customer`);
     dispatch({
       type: "TopUnpaidCustomerSuccess",
       payload: data.topUnpaidCustomer,
@@ -258,13 +208,7 @@ export const getTotalDeposit = () => async (dispatch) => {
   try {
     dispatch({ type: "TotalDepositRequest" });
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
-      },
-    };
-
-    const { data } = await axios.get(apiBase + `/api/v1/total/deposit`, config);
+    const { data } = await axios.get(apiBase + `/api/v1/total/deposit`);
     if (data) {
       dispatch({
         type: "TotalDepositSuccess",
@@ -282,16 +226,7 @@ export const getTotalWithdraw = () => async (dispatch) => {
   try {
     dispatch({ type: "TotalWithdrawRequest" });
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
-      },
-    };
-
-    const { data } = await axios.get(
-      apiBase + `/api/v1/total/withdraw`,
-      config
-    );
+    const { data } = await axios.get(apiBase + `/api/v1/total/withdraw`);
     dispatch({
       type: "TotalWithdrawSuccess",
       payload: data,

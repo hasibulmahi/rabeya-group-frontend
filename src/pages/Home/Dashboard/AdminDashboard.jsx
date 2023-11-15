@@ -15,9 +15,10 @@ import { isEmpty } from "lodash";
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
-  const user = localStorage.getItem("userData")
-    ? JSON.parse(localStorage.getItem("userData"))
-    : null;
+  // const user = localStorage.getItem("userData")
+  //   ? JSON.parse(localStorage.getItem("userData"))
+  //   : null;
+  const { user } = useSelector((state) => state.user);
   const { revenue, monRevenue, dailyRevenue } = useSelector(
     (state) => state.revenue
   );
@@ -119,7 +120,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (!isEmpty(user)) {
-      dispatch(getRevenue());
+      // dispatch(getRevenue());
       dispatch(getMonthlyRevenue());
       dispatch(getTotalDeposit());
       dispatch(getTotalWithdraw());

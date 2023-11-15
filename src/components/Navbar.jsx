@@ -3,14 +3,29 @@ import { useDispatch, useSelector } from "react-redux";
 import SidebarIcon from "../assets/icons/sidebar.png";
 import ProfileImage from "../assets/Avatar/Profile.png";
 import { logOut } from "../redux/actions/userAction";
+import axios from "axios";
+import { useEffect } from "react";
 
 const Navbar = ({ showSidebar, setShowSidebar }) => {
   const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector((state) => state.user);
+  const { isAuthenticated, user } = useSelector((state) => state.user);
 
-  const user = localStorage.getItem("userData")
-    ? JSON.parse(localStorage.getItem("userData"))
-    : null;
+  // const user = localStorage.getItem("userData")
+  //   ? JSON.parse(localStorage.getItem("userData"))
+  //   : null;
+
+  useEffect(() => {
+    if (user) {
+      console.log("calling");
+      axios.interceptors.request.use((config) => {
+        if (!config.url.includes("/login")) {
+          config.headers["Authorization"] = `Bearer ${user?.authToken}`;
+        }
+
+        return config;
+      });
+    }
+  }, [user]);
 
   return (
     <>

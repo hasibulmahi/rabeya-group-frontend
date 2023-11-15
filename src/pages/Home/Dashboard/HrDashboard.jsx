@@ -14,11 +14,12 @@ import {
 import { isEmpty } from "lodash";
 
 const HrDashboard = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
   const [loaded, setLoaded] = useState(true);
   const dispatch = useDispatch();
-  const user = localStorage.getItem("userData")
-    ? JSON.parse(localStorage.getItem("userData"))
-    : null;
+  // const user = localStorage.getItem("userData")
+  //   ? JSON.parse(localStorage.getItem("userData"))
+  //   : null;
   const { revenue, monRevenue, dailyRevenue } = useSelector(
     (state) => state.revenue
   );
@@ -123,13 +124,16 @@ const HrDashboard = () => {
   }, [monRevenue]);
 
   useEffect(() => {
-    dispatch(getRevenue());
-    dispatch(getMonthlyRevenue());
-    dispatch(getTotalDeposit());
-    dispatch(getTotalWithdraw());
+    if (user) {
+      const timer = setTimeout(() => {
+        dispatch(getRevenue(user?.authToken));
+        dispatch(getMonthlyRevenue());
+        dispatch(getTotalDeposit());
+        dispatch(getTotalWithdraw());
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
   }, []);
-
-  console.log("inside hr dashboard");
 
   return (
     <>

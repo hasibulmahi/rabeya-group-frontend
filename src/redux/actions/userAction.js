@@ -25,7 +25,14 @@ export const loginUser = (userData) => async (dispatch) => {
         })
       );
     }
-    dispatch({ type: "LoginSuccess", payload: data.user });
+    console.log("data.user", data);
+    dispatch({
+      type: "LoginSuccess",
+      payload: {
+        ...data.user,
+        authToken: data?.authToken,
+      },
+    });
   } catch (err) {
     dispatch({ type: "LoginFail", payload: err.response.data.message });
   }
