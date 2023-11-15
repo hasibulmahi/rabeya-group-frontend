@@ -40,6 +40,7 @@ import UpdateEmployee from "./pages/HrAccess/UpdateEmployee";
 import SalaryDistribution from "./pages/HrAccess/SalaryDistribution";
 import SingleProject from "./pages/HrAccess/SingleProject";
 import Notification from "./pages/HrAccess/Notification";
+import axios from "axios";
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
 
@@ -64,7 +65,10 @@ function App() {
     }
   }, [currentUser]);
 
-  console.log("currentUser", currentUser);
+  axios.interceptors.request.use((config) => {
+    config.headers["Authorization"] = `Bearer ${currentUser?.authToken}`;
+    return config;
+  });
 
   return (
     <div>

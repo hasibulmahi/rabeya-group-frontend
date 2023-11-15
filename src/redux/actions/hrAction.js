@@ -73,14 +73,17 @@ export const getSingleEmployee = (id) => async (dispatch) => {
 export const updateEmployee = (id, userData) => async (dispatch) => {
   try {
     dispatch({ type: "GetUpdateEmployeeRequest" });
-    const config = {
-      headers: { "Content-Type": "multipart/form-data" },
-      Authorization: `Bearer ${localStorageUserData.authToken}`,
-    };
+
+    // const config = {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //     Authorization: `Bearer ${localStorageUserData.authToken}`,
+    //   },
+    // };
+
     const { data } = await axios.put(
       apiBase + `/api/v1/manager/update/${id}`,
-      userData,
-      config
+      userData
     );
     dispatch({ type: "GetUpdateEmployeeSuccess", payload: data });
   } catch (err) {
