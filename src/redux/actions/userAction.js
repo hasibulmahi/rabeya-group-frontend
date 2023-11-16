@@ -97,10 +97,10 @@ export const logOut = () => async (dispatch) => {
     dispatch({ type: "LogoutRequest" });
     // const config = { headers: { "Content-Type": "multipart/form-data" } };
 
+    localStorage.removeItem("userData");
+
     const { data } = await axios.get(apiBase + "/api/v1/logout");
-    if (!isEmpty(data)) {
-      localStorage.removeItem("userData");
-    }
+
     dispatch({ type: "LogoutSuccess", payload: data.message });
   } catch (error) {
     dispatch({
