@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Authentication/Login";
 import ForgotPassword from "./pages/Authentication/ForgotPassword";
 import Home from "./pages/Home/Home";
@@ -61,7 +61,7 @@ function App() {
 
   useEffect(() => {
     if (currentUser) {
-      setRole(currentUser.role);
+      setRole(currentUser?.role);
       // dispatch({ type: "LoginSuccess", payload: user });
     }
   }, [currentUser]);
@@ -80,7 +80,7 @@ function App() {
   console.log("user?.authToken", user);
 
   return (
-    <div>
+    <BrowserRouter>
       <ToastContainer />
       <Navbar setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
       <Sidebar showSidebar={showSidebar} />
@@ -280,7 +280,7 @@ function App() {
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </div>
+    </BrowserRouter>
   );
 }
 

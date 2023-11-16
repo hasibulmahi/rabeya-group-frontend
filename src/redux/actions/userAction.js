@@ -95,11 +95,13 @@ export const resetPassword = (userData) => async (dispatch) => {
 export const logOut = () => async (dispatch) => {
   try {
     dispatch({ type: "LogoutRequest" });
-    // const config = { headers: { "Content-Type": "multipart/form-data" } };
-
-    localStorage.removeItem("userData");
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
 
     const { data } = await axios.get(apiBase + "/api/v1/logout");
+
+    if (data) {
+      localStorage.removeItem("userData");
+    }
 
     dispatch({ type: "LogoutSuccess", payload: data.message });
   } catch (error) {
