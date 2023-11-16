@@ -14,18 +14,18 @@ const Navbar = ({ showSidebar, setShowSidebar }) => {
   //   ? JSON.parse(localStorage.getItem("userData"))
   //   : null;
 
-  useEffect(() => {
-    if (user) {
-      console.log("calling");
-      axios.interceptors.request.use((config) => {
-        if (!config.url.includes("/login")) {
-          config.headers["Authorization"] = `Bearer ${user?.authToken}`;
-        }
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log("calling");
+  //     axios.interceptors.request.use((config) => {
+  //       if (!config.url.includes("/login")) {
+  //         config.headers["Authorization"] = `Bearer ${user?.authToken}`;
+  //       }
 
-        return config;
-      });
-    }
-  }, [user]);
+  //       return config;
+  //     });
+  //   }
+  // }, [user]);
 
   return (
     <>

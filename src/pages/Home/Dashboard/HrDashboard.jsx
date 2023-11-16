@@ -15,6 +15,7 @@ import { isEmpty } from "lodash";
 
 const HrDashboard = () => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
+
   const [loaded, setLoaded] = useState(true);
   const dispatch = useDispatch();
   // const user = localStorage.getItem("userData")
@@ -126,10 +127,10 @@ const HrDashboard = () => {
   useEffect(() => {
     if (user) {
       const timer = setTimeout(() => {
-        dispatch(getRevenue(user?.authToken));
-        dispatch(getMonthlyRevenue());
-        dispatch(getTotalDeposit());
-        dispatch(getTotalWithdraw());
+        dispatch(getRevenue(user.authToken));
+        dispatch(getMonthlyRevenue(user.authToken));
+        dispatch(getTotalDeposit(user.authToken));
+        dispatch(getTotalWithdraw(user.authToken));
       }, 2000);
       return () => clearTimeout(timer);
     }

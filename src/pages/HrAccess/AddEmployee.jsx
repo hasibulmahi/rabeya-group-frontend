@@ -13,6 +13,7 @@ import MetaData from "../../components/MetaData";
 const AddEmployee = () => {
   const dispatch = useDispatch();
   const { success, error, loading } = useSelector((state) => state.employee);
+  const { isAuthenticated, user } = useSelector((state) => state.user);
 
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
@@ -92,7 +93,7 @@ const AddEmployee = () => {
         cv: cv,
         avatar: avatar,
       };
-      dispatch(createEmployee(userData));
+      dispatch(createEmployee(userData, user.authToken));
     }
   };
   useEffect(() => {

@@ -13,6 +13,8 @@ import MetaData from "../../components/MetaData";
 const AddClient = () => {
   const dispatch = useDispatch();
   const { success, error, eloading } = useSelector((state) => state.client);
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
 
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
@@ -65,7 +67,7 @@ const AddClient = () => {
         work: work,
         bankAccount: bankAccount,
       };
-      dispatch(createClient(userData));
+      dispatch(createClient(userData, user.authToken));
     }
   };
   useEffect(() => {

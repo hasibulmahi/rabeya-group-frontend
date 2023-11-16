@@ -4,13 +4,13 @@ const localStorageUserData = localStorage.getItem("userData")
   ? JSON.parse(localStorage.getItem("userData"))
   : null;
 
-export const createEmployee = (userData) => async (dispatch) => {
+export const createEmployee = (userData, token) => async (dispatch) => {
   try {
     dispatch({ type: "CreateEmployeeRequest" });
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
     const { data } = await axios.post(
@@ -70,20 +70,21 @@ export const getSingleEmployee = (id) => async (dispatch) => {
   }
 };
 
-export const updateEmployee = (id, userData) => async (dispatch) => {
+export const updateEmployee = (id, userData, token) => async (dispatch) => {
   try {
     dispatch({ type: "GetUpdateEmployeeRequest" });
 
-    // const config = {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //     Authorization: `Bearer ${localStorageUserData.authToken}`,
-    //   },
-    // };
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
     const { data } = await axios.put(
       apiBase + `/api/v1/manager/update/${id}`,
-      userData
+      userData,
+      config
     );
     dispatch({ type: "GetUpdateEmployeeSuccess", payload: data });
   } catch (err) {
@@ -117,13 +118,13 @@ export const deleteEmployee = (id) => async (dispatch) => {
   }
 };
 
-export const createClient = (userData) => async (dispatch) => {
+export const createClient = (userData, token) => async (dispatch) => {
   try {
     dispatch({ type: "CreateClientRequest" });
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -169,7 +170,13 @@ export const getSingleClient = (id) => async (dispatch) => {
   try {
     dispatch({ type: "GetSingleClientRequest" });
 
-    const { data } = await axios.get(apiBase + `/api/v1/client/${id}`);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorageUserData.authToken}`,
+      },
+    };
+
+    const { data } = await axios.get(apiBase + `/api/v1/client/${id}`, config);
     dispatch({ type: "GetSingleClientSuccess", payload: data });
   } catch (err) {
     dispatch({
@@ -182,7 +189,12 @@ export const getSingleClient = (id) => async (dispatch) => {
 export const updateClient = (id, userData) => async (dispatch) => {
   try {
     dispatch({ type: "GetUpdateClientRequest" });
-    const config = { headers: { "Content-Type": "multipart/form-data" } };
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorageUserData.authToken}`,
+      },
+    };
     const { data } = await axios.put(
       apiBase + `/api/v1/client/update/${id}`,
       userData,
@@ -200,8 +212,16 @@ export const updateClient = (id, userData) => async (dispatch) => {
 export const deleteClient = (id) => async (dispatch) => {
   try {
     dispatch({ type: "DeleteClientRequest" });
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorageUserData.authToken}`,
+      },
+    };
+
     const { data } = await axios.delete(
-      apiBase + `/api/v1/client/delete/${id}`
+      apiBase + `/api/v1/client/delete/${id}`,
+      config
     );
     dispatch({ type: "DeleteClientSuccess", payload: data });
   } catch (err) {

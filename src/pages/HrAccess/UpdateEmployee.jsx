@@ -15,6 +15,8 @@ import MetaData from "../../components/MetaData";
 import { useParams } from "react-router-dom";
 
 const UpdateEmployee = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
   const { id } = useParams();
   const dispatch = useDispatch();
   const { singleEmployee, uloading, usuccess, uerror } = useSelector(
@@ -52,7 +54,7 @@ const UpdateEmployee = () => {
     };
     //     console.log(userData);
 
-    dispatch(updateEmployee(id, userData));
+    dispatch(updateEmployee(id, userData, user.authToken));
   };
   useEffect(() => {
     if (usuccess) {

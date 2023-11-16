@@ -10,6 +10,7 @@ import {
   getRevenue,
   getTotalDeposit,
   getTotalWithdraw,
+  getUnpaidCustomer,
 } from "../../../redux/actions/adminAction";
 import { isEmpty } from "lodash";
 
@@ -120,10 +121,11 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (!isEmpty(user)) {
-      // dispatch(getRevenue());
-      dispatch(getMonthlyRevenue());
-      dispatch(getTotalDeposit());
-      dispatch(getTotalWithdraw());
+      dispatch(getRevenue(user.authToken));
+      dispatch(getMonthlyRevenue(user.authToken));
+      dispatch(getTotalDeposit(user.authToken));
+      dispatch(getTotalWithdraw(user.authToken));
+      dispatch(getUnpaidCustomer(user.authToken));
     }
   }, []);
 

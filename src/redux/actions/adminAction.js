@@ -8,7 +8,6 @@ const localStorageUserData = localStorage.getItem("userData")
 
 export const getRevenue = (token) => async (dispatch) => {
   try {
-    console.log("localStorageUserData?.authToken", token);
     dispatch({ type: "RevenueRequest" });
 
     const config = {
@@ -17,29 +16,26 @@ export const getRevenue = (token) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.get(apiBase + `/api/v1/total/revenue`, config);
+    const { data } = await axios.get("/api/v1/total/revenue", config);
+
+    // const { data } = await axios.get(apiBase + `/api/v1/total/revenue`);
     if (data) {
       dispatch({ type: "RevenueSuccess", payload: data });
     }
   } catch (err) {
-    dispatch({ type: "RevenueFail", payload: err.response.data.message });
+    dispatch({ type: "RevenueFail", payload: err?.response?.data.message });
   }
 };
 
-export const getMonthlyRevenue = () => async (dispatch) => {
+export const getMonthlyRevenue = (token) => async (dispatch) => {
   try {
     dispatch({ type: "MontlyRevenueRequest" });
 
-    if (!isEmpty(localStorageUserData)) {
-      const revenueApi = await axios
-        .get(apiBase + `/api/v1/monthly/revenue`)
-        .then((response) => {
-          console.log("response", response);
-        })
-        .catch((err) => console.log(err));
-
-      console.log("revenueApi", revenueApi);
-    }
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
     const { data } = await axios.get(
       apiBase + `/api/v1/monthly/revenue`,
@@ -55,12 +51,19 @@ export const getMonthlyRevenue = () => async (dispatch) => {
     });
   }
 };
-export const getAllProject = (keyword) => async (dispatch) => {
+export const getAllProject = (keyword, token) => async (dispatch) => {
   try {
     dispatch({ type: "AllProjectRequest" });
 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorageUserData?.authToken}`,
+      },
+    };
+
     const { data } = await axios.get(
-      apiBase + `/api/v1/all/project?keyword=${keyword}`
+      apiBase + `/api/v1/all/project?keyword=${keyword}`,
+      config
     );
     dispatch({ type: "AllProjectSuccess", payload: data.projects });
   } catch (err) {
@@ -187,11 +190,20 @@ export const getTopCustomer = () => async (dispatch) => {
     });
   }
 };
-export const getUnpaidCustomer = () => async (dispatch) => {
+export const getUnpaidCustomer = (token) => async (dispatch) => {
   try {
     dispatch({ type: "TopUnpaidCustomerRequest" });
 
-    const { data } = await axios.get(apiBase + `/api/v1/top/unpaid/customer`);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      apiBase + `/api/v1/top/unpaid/customer`,
+      config
+    );
     dispatch({
       type: "TopUnpaidCustomerSuccess",
       payload: data.topUnpaidCustomer,
@@ -204,11 +216,17 @@ export const getUnpaidCustomer = () => async (dispatch) => {
   }
 };
 
-export const getTotalDeposit = () => async (dispatch) => {
+export const getTotalDeposit = (token) => async (dispatch) => {
   try {
     dispatch({ type: "TotalDepositRequest" });
 
-    const { data } = await axios.get(apiBase + `/api/v1/total/deposit`);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get(apiBase + `/api/v1/total/deposit`, config);
     if (data) {
       dispatch({
         type: "TotalDepositSuccess",
@@ -222,11 +240,20 @@ export const getTotalDeposit = () => async (dispatch) => {
     });
   }
 };
-export const getTotalWithdraw = () => async (dispatch) => {
+export const getTotalWithdraw = (token) => async (dispatch) => {
   try {
     dispatch({ type: "TotalWithdrawRequest" });
 
-    const { data } = await axios.get(apiBase + `/api/v1/total/withdraw`);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      apiBase + `/api/v1/total/withdraw`,
+      config
+    );
     dispatch({
       type: "TotalWithdrawSuccess",
       payload: data,

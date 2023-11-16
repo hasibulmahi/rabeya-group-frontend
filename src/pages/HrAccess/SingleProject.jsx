@@ -10,9 +10,10 @@ const SingleProject = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { project } = useSelector((state) => state.hrProject);
-  console.log(project && project);
 
   const projectCreatedDate = new Date(project && project.createdAt);
+
+  const { isAuthenticated, user } = useSelector((state) => state.user);
 
   //Get Month
   const getMonth = (date) => {
@@ -226,6 +227,8 @@ const SingleProject = () => {
     clearInterval(interval.current);
     dispatch(getSingleProject(id));
   }, []);
+
+  console.log("inside single project");
   return (
     <>
       <div className="px-3 sm:px-12 md:px-12 pt-14 md:py-20">
@@ -242,7 +245,7 @@ const SingleProject = () => {
             <p className="font-poppins text-md lg:text-md font-medium">
               Project Manager:
               <span className="text-md ml-1">
-                {project && project.manager.name}
+                {project && project?.manager?.name}
               </span>
             </p>
             <p className="font-poppins mt-5">

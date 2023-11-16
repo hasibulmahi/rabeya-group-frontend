@@ -7,12 +7,14 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import MetaData from "../../components/MetaData";
 
 const AllProject = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
   const { projects, loading } = useSelector((state) => state.projects);
   const [keyword, setKeyword] = useState("");
   const handleClick = (e) => {
     e.preventDefault();
-    dispatch(getAllProject(keyword));
+    dispatch(getAllProject(keyword, user.user.authToken));
   };
   useEffect(() => {
     dispatch(getAllProject());
