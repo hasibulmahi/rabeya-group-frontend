@@ -8,9 +8,7 @@ import SingleDeposit from "./SingleDeposit";
 import { isEmpty } from "lodash";
 
 const PaymentHistory = () => {
-  const user = localStorage.getItem("userData")
-    ? JSON.parse(localStorage.getItem("userData"))
-    : null;
+  const { isAuthenticated, user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const { success, error, dpdloading } = useSelector(
@@ -42,14 +40,14 @@ const PaymentHistory = () => {
 
   useEffect(() => {
     if (!isEmpty(user)) {
-      dispatch(getAllDeposit());
-      dispatch(getAllWithdraw());
+      dispatch(getAllDeposit(user.authToken));
+      dispatch(getAllWithdraw(user.authToken));
     }
   }, []);
 
   const callDepositeApi = () => {
     console.log("callDepositeApi");
-    dispatch(getAllDeposit());
+    dispatch(getAllDeposit(user.authToken));
   };
 
   return (

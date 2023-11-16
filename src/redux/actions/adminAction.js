@@ -71,14 +71,16 @@ export const getAllProject = (keyword, token) => async (dispatch) => {
   }
 };
 
-export const adminDeposit = (userData) => async (dispatch) => {
+export const adminDeposit = (userData, token) => async (dispatch) => {
   try {
     dispatch({ type: "AdminDepositRequest" });
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
       },
     };
+
     const { data } = await axios.post(
       apiBase + "/api/v1/create/deposit",
       userData,
@@ -90,12 +92,13 @@ export const adminDeposit = (userData) => async (dispatch) => {
   }
 };
 
-export const adminWithdraw = (userData) => async (dispatch) => {
+export const adminWithdraw = (userData, token) => async (dispatch) => {
   try {
     dispatch({ type: "AdminWithdrawRequest" });
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
       },
     };
     const { data } = await axios.post(
@@ -109,13 +112,13 @@ export const adminWithdraw = (userData) => async (dispatch) => {
   }
 };
 
-export const getAllDeposit = () => async (dispatch) => {
+export const getAllDeposit = (token) => async (dispatch) => {
   try {
     dispatch({ type: "GetAdminDepositRequest" });
 
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData?.authToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -129,11 +132,20 @@ export const getAllDeposit = () => async (dispatch) => {
   }
 };
 
-export const getAllWithdraw = () => async (dispatch) => {
+export const getAllWithdraw = (token) => async (dispatch) => {
   try {
     dispatch({ type: "GetAdminWithdrawRequest" });
 
-    const { data } = await axios.get(apiBase + `/api/v1/admin/withdraw`);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      apiBase + `/api/v1/admin/withdraw`,
+      config
+    );
     dispatch({ type: "GetAdminWithdrawSuccess", payload: data.adminWithdraw });
   } catch (err) {
     dispatch({
@@ -143,15 +155,21 @@ export const getAllWithdraw = () => async (dispatch) => {
   }
 };
 
-export const deleteDeposit = (id) => async (dispatch) => {
+export const deleteDeposit = (id, token) => async (dispatch) => {
   try {
     dispatch({ type: "DeleteDepositRequest" });
 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
     const { data } = await axios.delete(
-      apiBase + `/api/v1/delete/deposit/${id}`
+      apiBase + `/api/v1/delete/deposit/${id}`,
+      config
     );
     if (data) {
-      console.log("data is", data);
       dispatch({ type: "DeleteDepositSuccess", payload: data });
     }
   } catch (err) {
@@ -161,12 +179,19 @@ export const deleteDeposit = (id) => async (dispatch) => {
     });
   }
 };
-export const deleteWithdraw = (id) => async (dispatch) => {
+export const deleteWithdraw = (id, token) => async (dispatch) => {
   try {
     dispatch({ type: "DeleteWithdrawRequest" });
 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
     const { data } = await axios.delete(
-      apiBase + `/api/v1/delete/withdraw/${id}`
+      apiBase + `/api/v1/delete/withdraw/${id}`,
+      config
     );
     dispatch({ type: "DeleteWithdrawSuccess", payload: data });
   } catch (err) {
@@ -177,11 +202,17 @@ export const deleteWithdraw = (id) => async (dispatch) => {
   }
 };
 
-export const getTopCustomer = () => async (dispatch) => {
+export const getTopCustomer = (token) => async (dispatch) => {
   try {
     dispatch({ type: "TopCustomerRequest" });
 
-    const { data } = await axios.get(apiBase + `/api/v1/top/customer`);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get(apiBase + `/api/v1/top/customer`, config);
     dispatch({ type: "TopCustomerSuccess", payload: data.topCustomer });
   } catch (err) {
     dispatch({

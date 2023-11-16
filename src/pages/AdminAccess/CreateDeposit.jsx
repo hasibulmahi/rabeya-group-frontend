@@ -12,6 +12,7 @@ import {
 } from "../../redux/actions/adminAction";
 
 const CreateDeposit = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { success, error, payloading } = useSelector((state) => state.payment);
 
@@ -32,7 +33,7 @@ const CreateDeposit = () => {
         title: title,
         amount: parseInt(amount),
       };
-      dispatch(adminDeposit(userData));
+      dispatch(adminDeposit(userData, user.authToken));
     }
   };
   useEffect(() => {

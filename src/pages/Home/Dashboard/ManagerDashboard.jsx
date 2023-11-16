@@ -233,7 +233,7 @@ const ManagerDashboard = () => {
     dispatch(createDeposit(data));
   };
   const deleteDepositFunc = (id) => {
-    dispatch(deleteDeposit(id));
+    dispatch(deleteDeposit(id, user.authToken));
   };
 
   //Show Add Withdraw

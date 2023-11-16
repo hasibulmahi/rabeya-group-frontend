@@ -11,6 +11,8 @@ import {
 } from "../../redux/actions/adminAction";
 
 const CreateWithdraw = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
   const { success, error, payloading } = useSelector((state) => state.payment);
 
@@ -31,7 +33,7 @@ const CreateWithdraw = () => {
         title: title,
         amount: parseInt(amount),
       };
-      dispatch(adminWithdraw(userData));
+      dispatch(adminWithdraw(userData, user.authToken));
     }
   };
   useEffect(() => {
