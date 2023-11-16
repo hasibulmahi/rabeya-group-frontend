@@ -1,21 +1,39 @@
 import axios from "axios";
 import { apiBase } from "../../config";
 
-export const getManagerProject = () => async (dispatch) => {
+export const getManagerProject = (token) => async (dispatch) => {
   try {
     dispatch({ type: "ProjectRequest" });
 
-    const { data } = await axios.get(apiBase + "/api/v1/manager/project/data");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      apiBase + "/api/v1/manager/project/data",
+      token
+    );
     dispatch({ type: "ProjectSuccess", payload: data.project });
   } catch (err) {
     dispatch({ type: "ProjectFail", payload: err.response.data.message });
   }
 };
-export const getClientProject = () => async (dispatch) => {
+export const getClientProject = (token) => async (dispatch) => {
   try {
     dispatch({ type: "ProjectRequest" });
 
-    const { data } = await axios.get(apiBase + "/api/v1/client/project/data");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      apiBase + "/api/v1/client/project/data",
+      config
+    );
     dispatch({ type: "ProjectSuccess", payload: data.project });
   } catch (err) {
     dispatch({ type: "ProjectFail", payload: err.response.data.message });

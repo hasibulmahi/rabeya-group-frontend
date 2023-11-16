@@ -24,9 +24,7 @@ import { createClientNotification } from "../../../redux/actions/clientAction";
 
 const ClientDashboard = () => {
   const dispatch = useDispatch();
-  const user = localStorage.getItem("userData")
-    ? JSON.parse(localStorage.getItem("userData"))
-    : null;
+  const { isAuthenticated, user } = useSelector((state) => state.user);
   const { project, ploading, success, error } = useSelector(
     (state) => state.project
   );
@@ -178,58 +176,61 @@ const ClientDashboard = () => {
     dispatch(createClientNotification(data));
   };
 
-  // useEffect(() => {
-  //   startTimer();
+  useEffect(() => {
+    startTimer();
 
-  //   clearInterval(interval.current);
-  //   localStorage.setItem("items", JSON.stringify(todo));
+    clearInterval(interval.current);
+    localStorage.setItem("items", JSON.stringify(todo));
 
-  //   dispatch(getClientProject());
-  //   if (project) {
-  //     setData({
-  //       labels:
-  //         project &&
-  //         project.clientDeposit.map((val) => {
-  //           const date = new Date(val.createdAt).getDate();
-  //           const month = new Date(val.createdAt).getMonth();
-  //           const year = new Date(val.createdAt).getFullYear();
-  //           const combined = `${date}/${month + 1}/${year}`;
+    if (project) {
+      setData({
+        labels:
+          project &&
+          project.clientDeposit.map((val) => {
+            const date = new Date(val.createdAt).getDate();
+            const month = new Date(val.createdAt).getMonth();
+            const year = new Date(val.createdAt).getFullYear();
+            const combined = `${date}/${month + 1}/${year}`;
 
-  //           return combined;
-  //         }),
-  //       datasets: [
-  //         {
-  //           label: "Cost Analysis",
-  //           data:
-  //             project &&
-  //             project.clientDeposit.map((val) => {
-  //               return val.amount;
-  //             }),
-  //           backgroundColor: ["#191D88"],
-  //         },
-  //       ],
-  //     });
-  //   }
-  //   //Expenses
-  //   if (success) {
-  //     toast(success);
-  //   }
-  //   dispatch(clearSuccess());
-  //   if (error) {
-  //     toast(error);
-  //     dispatch(clearError());
-  //   }
+            return combined;
+          }),
+        datasets: [
+          {
+            label: "Cost Analysis",
+            data:
+              project &&
+              project.clientDeposit.map((val) => {
+                return val.amount;
+              }),
+            backgroundColor: ["#191D88"],
+          },
+        ],
+      });
+    }
+    //Expenses
+    if (success) {
+      toast(success);
+    }
+    dispatch(clearSuccess());
+    if (error) {
+      toast(error);
+      dispatch(clearError());
+    }
 
-  //   //Notification
-  //   if (cnsuccess) {
-  //     toast(cnsuccess);
-  //   }
-  //   dispatch(clearSuccess());
-  //   if (cnerror) {
-  //     toast(cnerror);
-  //     dispatch(clearError());
-  //   }
-  // }, [todo, error, success, project, cnsuccess, cnerror]);
+    //Notification
+    if (cnsuccess) {
+      toast(cnsuccess);
+    }
+    dispatch(clearSuccess());
+    if (cnerror) {
+      toast(cnerror);
+      dispatch(clearError());
+    }
+  }, [todo, error, success, project, cnsuccess, cnerror]);
+
+  useEffect(() => {
+    dispatch(getClientProject(user.authToken));
+  }, []);
 
   return (
     <>

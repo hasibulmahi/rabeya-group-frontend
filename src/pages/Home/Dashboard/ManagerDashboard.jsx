@@ -27,9 +27,7 @@ import FullLoading from "../../../components/FullLoading";
 
 const ManagerDashboard = () => {
   const dispatch = useDispatch();
-  const user = localStorage.getItem("userData")
-    ? JSON.parse(localStorage.getItem("userData"))
-    : null;
+  const { isAuthenticated, user } = useSelector((state) => state.user);
   const { project, ploading, success, error } = useSelector(
     (state) => state.project
   );
@@ -269,7 +267,7 @@ const ManagerDashboard = () => {
         },
       ],
     });
-    dispatch(getManagerProject());
+    dispatch(getManagerProject(user.authToken));
 
     //Expenses
     if (success) {
