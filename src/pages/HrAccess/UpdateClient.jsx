@@ -13,6 +13,8 @@ import MetaData from "../../components/MetaData";
 import { useParams } from "react-router-dom";
 
 const UpdateClient = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
   const { id } = useParams();
   const dispatch = useDispatch();
   const { singleClient, uloading, usuccess, uerror } = useSelector(
@@ -41,7 +43,7 @@ const UpdateClient = () => {
     };
     //     console.log(userData);
 
-    dispatch(updateClient(id, userData));
+    dispatch(updateClient(id, userData, user.authToken));
   };
   useEffect(() => {
     // if (singleClient) {
@@ -61,7 +63,7 @@ const UpdateClient = () => {
       toast(uerror);
       dispatch(clearError());
     }
-    dispatch(getSingleClient(id));
+    dispatch(getSingleClient(id, user.authToken));
   }, [id, usuccess, uerror]);
   return (
     <div className="flex justify-center pt-20 mb-5">

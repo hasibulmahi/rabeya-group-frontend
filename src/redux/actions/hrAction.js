@@ -166,13 +166,13 @@ export const getClient = (keyword, token) => async (dispatch) => {
   }
 };
 
-export const getSingleClient = (id) => async (dispatch) => {
+export const getSingleClient = (id, token) => async (dispatch) => {
   try {
     dispatch({ type: "GetSingleClientRequest" });
 
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -186,13 +186,13 @@ export const getSingleClient = (id) => async (dispatch) => {
   }
 };
 
-export const updateClient = (id, userData) => async (dispatch) => {
+export const updateClient = (id, userData, token) => async (dispatch) => {
   try {
     dispatch({ type: "GetUpdateClientRequest" });
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
     const { data } = await axios.put(
@@ -209,13 +209,13 @@ export const updateClient = (id, userData) => async (dispatch) => {
   }
 };
 
-export const deleteClient = (id) => async (dispatch) => {
+export const deleteClient = (id, token) => async (dispatch) => {
   try {
     dispatch({ type: "DeleteClientRequest" });
 
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -232,13 +232,13 @@ export const deleteClient = (id) => async (dispatch) => {
   }
 };
 
-export const getProjectManager = () => async (dispatch) => {
+export const getProjectManager = (token) => async (dispatch) => {
   try {
     dispatch({ type: "GetProjectManagerRequest" });
 
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 

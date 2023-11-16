@@ -13,6 +13,8 @@ import { toast } from "react-toastify";
 import Loading from "../../components/Loading";
 
 const SingleClient = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
   const { id } = useParams();
   const history = useNavigate();
   const dispatch = useDispatch();
@@ -23,11 +25,11 @@ const SingleClient = () => {
   const [showDelete, setShowDelete] = useState(false);
 
   const handleDelete = () => {
-    dispatch(deleteClient(id));
+    dispatch(deleteClient(id, user.authToken));
   };
 
   useEffect(() => {
-    dispatch(getSingleClient(id));
+    dispatch(getSingleClient(id, user.authToken));
     if (dsuccess) {
       toast(dsuccess);
       dispatch(clearSuccess());
