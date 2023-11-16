@@ -7,16 +7,17 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import MetaData from "../../components/MetaData";
 
 const AllClient = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
   const { client, loading } = useSelector((state) => state.client);
   const [keyword, setKeyword] = useState("");
   const handleClick = (e) => {
     e.preventDefault();
-    dispatch(getClient(keyword));
+    dispatch(getClient(keyword, user.authToken));
   };
-  console.log(keyword);
   useEffect(() => {
-    dispatch(getClient(keyword));
+    dispatch(getClient(keyword, user.authToken));
   }, []);
   return (
     <div className="px-3 sm:px-12 md:px-12 pt-14 md:py-20">

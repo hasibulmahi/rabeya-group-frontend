@@ -65,7 +65,7 @@ const UpdateEmployee = () => {
       toast(uerror);
       dispatch(clearError());
     }
-    dispatch(getSingleEmployee(id));
+    dispatch(getSingleEmployee(id, user.authToken));
   }, [id, usuccess, uerror]);
   return (
     <div className="flex justify-center pt-20 mb-5">

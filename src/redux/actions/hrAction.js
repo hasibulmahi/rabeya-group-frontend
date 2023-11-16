@@ -27,13 +27,13 @@ export const createEmployee = (userData, token) => async (dispatch) => {
   }
 };
 
-export const getEmployee = (keyword) => async (dispatch) => {
+export const getEmployee = (keyword, token) => async (dispatch) => {
   try {
     dispatch({ type: "GetEmployeeRequest" });
 
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -50,13 +50,13 @@ export const getEmployee = (keyword) => async (dispatch) => {
   }
 };
 
-export const getSingleEmployee = (id) => async (dispatch) => {
+export const getSingleEmployee = (id, token) => async (dispatch) => {
   try {
     dispatch({ type: "GetSingleEmployeeRequest" });
 
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -143,12 +143,12 @@ export const createClient = (userData, token) => async (dispatch) => {
   }
 };
 
-export const getClient = (keyword) => async (dispatch) => {
+export const getClient = (keyword, token) => async (dispatch) => {
   try {
     dispatch({ type: "GetClientRequest" });
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData.authToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 

@@ -17,7 +17,7 @@ const AllProject = () => {
     dispatch(getAllProject(keyword, user.user.authToken));
   };
   useEffect(() => {
-    dispatch(getAllProject());
+    dispatch(getAllProject(keyword, user.authToken));
   }, []);
   return (
     <div className="px-3 sm:px-12 md:px-12 pt-14 md:py-20">

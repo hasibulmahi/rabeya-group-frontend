@@ -13,6 +13,8 @@ import { toast } from "react-toastify";
 import Loading from "../../components/Loading";
 
 const SingleEmployee = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
   const { id } = useParams();
   const history = useNavigate();
   const dispatch = useDispatch();
@@ -32,7 +34,7 @@ const SingleEmployee = () => {
   };
 
   useEffect(() => {
-    dispatch(getSingleEmployee(id));
+    dispatch(getSingleEmployee(id, user.authToken));
     if (dsuccess) {
       toast(dsuccess);
       dispatch(clearSuccess());

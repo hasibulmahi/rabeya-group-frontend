@@ -57,7 +57,7 @@ export const getAllProject = (keyword, token) => async (dispatch) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorageUserData?.authToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
