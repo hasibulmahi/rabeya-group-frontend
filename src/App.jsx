@@ -77,8 +77,6 @@ function App() {
     );
   }
 
-  console.log("user?.authToken", user);
-
   return (
     <BrowserRouter>
       <ToastContainer />
