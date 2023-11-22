@@ -24,6 +24,8 @@ const UpdateEmployee = () => {
     (state) => state.employee
   );
 
+  console.log("singleEmployee", singleEmployee);
+
   const [name, setName] = useState(singleEmployee?.name);
   const [userName, setUserName] = useState(singleEmployee?.userName);
   const [email, setEmail] = useState(singleEmployee?.email);
@@ -51,6 +53,20 @@ const UpdateEmployee = () => {
 
     dispatch(updateEmployee(id, userData, user.authToken));
   };
+
+  function allSetState(singleEmployee) {
+    setName(singleEmployee.name);
+    setUserName(singleEmployee.userName);
+    setEmail(singleEmployee.email);
+    setMobile(singleEmployee.mobile);
+    setEmployeeId(singleEmployee.employeeId);
+    setRole(singleEmployee.role);
+    setSalary(singleEmployee.salary);
+    setAddress(singleEmployee.address);
+    setType(singleEmployee.type);
+    console.log("singleEmployee-", singleEmployee);
+  }
+
   useEffect(() => {
     if (usuccess) {
       toast(usuccess);
@@ -62,6 +78,14 @@ const UpdateEmployee = () => {
     }
     dispatch(getSingleEmployee(id, user?.authToken));
   }, [id, usuccess, uerror]);
+
+  useEffect(() => {
+    if (singleEmployee) {
+      allSetState(singleEmployee);
+    }
+  }, [singleEmployee]);
+
+  console.log("name", name);
 
   if (!isEmpty(singleEmployee)) {
     return (
@@ -84,7 +108,7 @@ const UpdateEmployee = () => {
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
-                value={singleEmployee?.name || ""}
+                value={name || ""}
                 required
               />
             </div>
@@ -97,7 +121,7 @@ const UpdateEmployee = () => {
                 onChange={(e) => {
                   setUserName(e.target.value);
                 }}
-                value={singleEmployee?.userName || ""}
+                value={userName || ""}
                 required
               />
             </div>
@@ -110,7 +134,7 @@ const UpdateEmployee = () => {
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
-                value={singleEmployee?.email || ""}
+                value={email || ""}
                 required
               />
             </div>
@@ -123,7 +147,7 @@ const UpdateEmployee = () => {
                 onChange={(e) => {
                   setMobile(e.target.value);
                 }}
-                value={singleEmployee?.mobile || ""}
+                value={mobile || ""}
                 required
               />
             </div>
@@ -136,7 +160,7 @@ const UpdateEmployee = () => {
                 onChange={(e) => {
                   setEmployeeId(e.target.value);
                 }}
-                value={singleEmployee?.employeeId || ""}
+                value={employeeId || ""}
                 required
               />
             </div>
@@ -149,7 +173,7 @@ const UpdateEmployee = () => {
                 onChange={(e) => {
                   setRole(e.target.value);
                 }}
-                value={singleEmployee?.role || ""}
+                value={role || ""}
                 required
               />
             </div>
@@ -162,7 +186,7 @@ const UpdateEmployee = () => {
                 onChange={(e) => {
                   setAddress(e.target.value);
                 }}
-                value={singleEmployee?.address || ""}
+                value={address || ""}
                 required
               />
             </div>
@@ -173,7 +197,7 @@ const UpdateEmployee = () => {
               <select
                 className="w-full px-2 py-2 border-black border-2 rounded-lg border-solid"
                 onChange={(e) => setType(e.target.value)}
-                value={singleEmployee?.type || ""}
+                value={type}
               >
                 {option.map((val, ind) => {
                   return (
@@ -193,7 +217,7 @@ const UpdateEmployee = () => {
                 onChange={(e) => {
                   setSalary(e.target.value);
                 }}
-                value={singleEmployee?.salary || ""}
+                value={salary || ""}
                 required
               />
             </div>
