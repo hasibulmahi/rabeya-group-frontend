@@ -59,7 +59,7 @@ const UpdateEmployee = () => {
     setUserName(singleEmployee.userName);
     setEmail(singleEmployee.email);
     setMobile(singleEmployee.mobile);
-    setEmployeeId(singleEmployee.employeeId);
+    setEmployeeId(singleEmployee.id);
     setRole(singleEmployee.role);
     setSalary(singleEmployee.salary);
     setAddress(singleEmployee.address);
