@@ -93,7 +93,7 @@ const AddEmployee = () => {
         cv: cv,
         avatar: avatar,
       };
-      dispatch(createEmployee(userData, user.authToken));
+      dispatch(createEmployee(userData, user?.authToken));
     }
   };
   useEffect(() => {
