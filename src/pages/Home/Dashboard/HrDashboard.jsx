@@ -9,8 +9,10 @@ import {
   getAllProject,
   getMonthlyRevenue,
   getRevenue,
+  getTopCustomer,
   getTotalDeposit,
   getTotalWithdraw,
+  getUnpaidCustomer,
 } from "../../../redux/actions/adminAction";
 import { isEmpty } from "lodash";
 
@@ -135,6 +137,8 @@ const HrDashboard = () => {
         dispatch(getTotalDeposit(user.authToken));
         dispatch(getTotalWithdraw(user.authToken));
         dispatch(getAllProject(keyword, user?.authToken));
+        dispatch(getTopCustomer(user?.authToken));
+        dispatch(getUnpaidCustomer(user?.authToken));
       }, 2000);
       return () => clearTimeout(timer);
     }
