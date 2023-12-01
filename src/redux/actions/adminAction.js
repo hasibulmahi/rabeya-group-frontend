@@ -55,6 +55,8 @@ export const getAllProject = (keyword, token) => async (dispatch) => {
   try {
     dispatch({ type: "AllProjectRequest" });
 
+    console.log("token", token);
+
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,

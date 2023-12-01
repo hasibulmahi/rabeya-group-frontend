@@ -9,6 +9,8 @@ import MetaData from "../../components/MetaData";
 const AllProject = () => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
+  console.log("user", user.authToken);
+
   const dispatch = useDispatch();
   const { projects, loading } = useSelector((state) => state.projects);
   const [keyword, setKeyword] = useState("");
@@ -17,7 +19,7 @@ const AllProject = () => {
     dispatch(getAllProject(keyword, user.user.authToken));
   };
   useEffect(() => {
-    dispatch(getAllProject(keyword, user.authToken));
+    dispatch(getAllProject(keyword, user?.authToken));
   }, []);
   return (
     <div className="px-3 sm:px-12 md:px-12 pt-14 md:py-20">

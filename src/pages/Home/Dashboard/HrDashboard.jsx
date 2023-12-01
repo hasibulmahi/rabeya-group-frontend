@@ -29,6 +29,7 @@ const HrDashboard = () => {
   );
 
   const { projects } = useSelector((state) => state.projects);
+  console.log("projects", projects);
   const {
     totalDeposit,
     chairmanDeposit,
@@ -101,6 +102,7 @@ const HrDashboard = () => {
   });
 
   const firstName = user.name.split(" ");
+  const [keyword, setKeyword] = useState("");
 
   //To Local String
   function numberWithCommas(x) {
@@ -131,6 +133,7 @@ const HrDashboard = () => {
         dispatch(getMonthlyRevenue(user.authToken));
         dispatch(getTotalDeposit(user.authToken));
         dispatch(getTotalWithdraw(user.authToken));
+        dispatch(getAllProject(keyword, user?.authToken));
       }, 2000);
       return () => clearTimeout(timer);
     }
