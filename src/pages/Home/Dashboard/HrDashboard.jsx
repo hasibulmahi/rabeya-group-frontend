@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import LineChart from "../../../components/LineChart";
 import { AiOutlinePlus } from "react-icons/ai";
 import {
+  getAllProject,
   getMonthlyRevenue,
   getRevenue,
   getTotalDeposit,
