@@ -3,6 +3,7 @@ import { forgotPasswordReducer, userReducer } from "./reducers/userReducer";
 import { projectReducer } from "./reducers/projectReducer";
 import {
   adminCustomerReducer,
+  deleteDepositReducer,
   deletePaymentReducer,
   getPaymentReducer,
   paymentReducer,
@@ -35,6 +36,7 @@ const store = configureStore({
     customer: adminCustomerReducer,
     totalPayment: totalPaymentReducer,
     deletepayment: deletePaymentReducer,
+    dpDeposite: deleteDepositReducer,
     projectUser: projectUserReducer,
     hrProject: hrProjectReducer,
     salary: salaryReducer,

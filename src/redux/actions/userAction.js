@@ -1,6 +1,9 @@
 import axios from "axios";
 import { apiBase } from "../../config";
 import { isEmpty } from "lodash";
+const localStorageUserData = localStorage.getItem("userData")
+  ? JSON.parse(localStorage.getItem("userData"))
+  : null;
 
 export const loginUser = (userData) => async (dispatch) => {
   try {
@@ -14,9 +17,22 @@ export const loginUser = (userData) => async (dispatch) => {
       config
     );
     if (data) {
-      localStorage.setItem("userData", JSON.stringify(data?.user));
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          ...data?.user,
+          authToken: data.authToken,
+        })
+      );
     }
-    dispatch({ type: "LoginSuccess", payload: data.user });
+    console.log("data.user", data);
+    dispatch({
+      type: "LoginSuccess",
+      payload: {
+        ...data.user,
+        authToken: data?.authToken,
+      },
+    });
   } catch (err) {
     dispatch({ type: "LoginFail", payload: err.response.data.message });
   }
@@ -79,12 +95,14 @@ export const resetPassword = (userData) => async (dispatch) => {
 export const logOut = () => async (dispatch) => {
   try {
     dispatch({ type: "LogoutRequest" });
-    // const config = { headers: { "Content-Type": "multipart/form-data" } };
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
 
     const { data } = await axios.get(apiBase + "/api/v1/logout");
-    if (!isEmpty(data)) {
+
+    if (data) {
       localStorage.removeItem("userData");
     }
+
     dispatch({ type: "LogoutSuccess", payload: data.message });
   } catch (error) {
     dispatch({

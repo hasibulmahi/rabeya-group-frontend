@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
-    "axios": "^1.4.0",
+    "axios": "^1.6.2",
     "chart.js": "^4.4.0",
     "file-saver": "^2.0.5",
     "javascript-time-ago": "^2.5.9",

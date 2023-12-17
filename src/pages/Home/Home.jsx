@@ -7,12 +7,11 @@ import NotFound from "../NotFound";
 import ManagerDashboard from "./Dashboard/ManagerDashboard";
 import ClientDashboard from "./Dashboard/ClientDashboard";
 
-const Home = () => {
+const Home = ({ user }) => {
   // const { user } = useSelector((state) => state.user);
-  const user = localStorage.getItem("userData")
-    ? JSON.parse(localStorage.getItem("userData"))
-    : null;
-
+  // const user = localStorage.getItem("userData")
+  //   ? JSON.parse(localStorage.getItem("userData"))
+  //   : null;
   if (user.role === "Admin") {
     return <AdminDashboard />;
   } else if (user.role === "Hr") {

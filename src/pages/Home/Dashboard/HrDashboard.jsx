@@ -6,17 +6,24 @@ import { Link } from "react-router-dom";
 import LineChart from "../../../components/LineChart";
 import { AiOutlinePlus } from "react-icons/ai";
 import {
+  getAllProject,
   getMonthlyRevenue,
   getRevenue,
+  getTopCustomer,
   getTotalDeposit,
   getTotalWithdraw,
+  getUnpaidCustomer,
 } from "../../../redux/actions/adminAction";
+import { isEmpty } from "lodash";
 
 const HrDashboard = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
+  const [loaded, setLoaded] = useState(true);
   const dispatch = useDispatch();
-  const user = localStorage.getItem("userData")
-    ? JSON.parse(localStorage.getItem("userData"))
-    : null;
+  // const user = localStorage.getItem("userData")
+  //   ? JSON.parse(localStorage.getItem("userData"))
+  //   : null;
   const { revenue, monRevenue, dailyRevenue } = useSelector(
     (state) => state.revenue
   );
@@ -25,6 +32,7 @@ const HrDashboard = () => {
   );
 
   const { projects } = useSelector((state) => state.projects);
+  console.log("projects", projects);
   const {
     totalDeposit,
     chairmanDeposit,
@@ -97,6 +105,7 @@ const HrDashboard = () => {
   });
 
   const firstName = user.name.split(" ");
+  const [keyword, setKeyword] = useState("");
 
   //To Local String
   function numberWithCommas(x) {
@@ -114,11 +123,27 @@ const HrDashboard = () => {
         },
       ],
     });
-    dispatch(getRevenue());
-    dispatch(getMonthlyRevenue());
-    dispatch(getTotalDeposit());
-    dispatch(getTotalWithdraw());
+    // dispatch(getRevenue());
+    // dispatch(getMonthlyRevenue());
+    // dispatch(getTotalDeposit());
+    // dispatch(getTotalWithdraw());
   }, [monRevenue]);
+
+  useEffect(() => {
+    if (user) {
+      const timer = setTimeout(() => {
+        dispatch(getRevenue(user.authToken));
+        dispatch(getMonthlyRevenue(user.authToken));
+        dispatch(getTotalDeposit(user.authToken));
+        dispatch(getTotalWithdraw(user.authToken));
+        dispatch(getAllProject(keyword, user?.authToken));
+        dispatch(getTopCustomer(user?.authToken));
+        dispatch(getUnpaidCustomer(user?.authToken));
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   return (
     <>
       <MetaData title={"Hr Dashboard"} />

@@ -10,20 +10,22 @@ import {
   getRevenue,
   getTotalDeposit,
   getTotalWithdraw,
+  getUnpaidCustomer,
 } from "../../../redux/actions/adminAction";
+import { isEmpty } from "lodash";
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
-  const user = localStorage.getItem("userData")
-    ? JSON.parse(localStorage.getItem("userData"))
-    : null;
+  // const user = localStorage.getItem("userData")
+  //   ? JSON.parse(localStorage.getItem("userData"))
+  //   : null;
+  const { user } = useSelector((state) => state.user);
   const { revenue, monRevenue, dailyRevenue } = useSelector(
     (state) => state.revenue
   );
   const { topcustomer, unpaidcustomer } = useSelector(
     (state) => state.customer
   );
-  console.log(topcustomer);
 
   const { projects } = useSelector((state) => state.projects);
   const {
@@ -115,11 +117,25 @@ const AdminDashboard = () => {
         },
       ],
     });
-    dispatch(getRevenue());
-    dispatch(getMonthlyRevenue());
-    dispatch(getTotalDeposit());
-    dispatch(getTotalWithdraw());
   }, [monRevenue]);
+
+  useEffect(() => {
+    if (!isEmpty(user)) {
+      dispatch(getRevenue(user.authToken));
+      dispatch(getMonthlyRevenue(user.authToken));
+      dispatch(getTotalDeposit(user.authToken));
+      dispatch(getTotalWithdraw(user.authToken));
+      dispatch(getUnpaidCustomer(user.authToken));
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   dispatch(loadUser());
+  //   dispatch(getAllProject());
+  //   dispatch(getTopCustomer());
+  //   dispatch(getUnpaidCustomer());
+  // }, [user]);
+
   return (
     <>
       <MetaData title={"Admin Dashboard"} />

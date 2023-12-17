@@ -13,6 +13,8 @@ import Loader from "../../components/Loading";
 import MetaData from "../../components/MetaData";
 
 const AddProject = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
   const { success, error, loading } = useSelector((state) => state.hrProject);
   const { client, manager } = useSelector((state) => state.projectUser);
@@ -42,8 +44,8 @@ const AddProject = () => {
     dispatch(createProject(userData));
   };
   useEffect(() => {
-    dispatch(getProjectManager());
-    dispatch(getProjectClient());
+    dispatch(getProjectManager(user.authToken));
+    dispatch(getProjectClient(user.authToken));
 
     if (success) {
       toast(success);

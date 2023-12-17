@@ -132,7 +132,7 @@ const Notification = () => {
                 return (
                   <tr key={ind}>
                     <td className="border-2  border-blue-400 text-center">
-                      {val.sender.name}
+                      {val?.sender?.name}
                     </td>
 
                     <td className="border-2  border-blue-400 text-center">
@@ -183,10 +183,10 @@ const Notification = () => {
                 return (
                   <tr key={ind}>
                     <td className="border-2  border-blue-400 text-center">
-                      {val.sender.name}
+                      {val?.sender?.name}
                     </td>
                     <td className="border-2  border-blue-400 text-center">
-                      {val.sender.activeProject.code}
+                      {val.sender?.activeProject?.code}
                     </td>
                     <td className="border-2  border-blue-400 text-center">
                       {val.message}
@@ -242,10 +242,10 @@ const Notification = () => {
               return (
                 <tr key={ind}>
                   <td className="border-2  border-blue-400 text-center">
-                    {val.sender.name}
+                    {val?.sender?.name}
                   </td>
                   <td className="border-2  border-blue-400 text-center">
-                    {val.project.manager.name}
+                    {val?.project?.manager?.name}
                   </td>
                   <td className="border-2  border-blue-400 text-center">
                     {val.message}

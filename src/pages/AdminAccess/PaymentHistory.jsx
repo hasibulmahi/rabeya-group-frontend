@@ -5,9 +5,16 @@ import { Link } from "react-router-dom";
 
 import SingleWithdraw from "./SingleWithdraw";
 import SingleDeposit from "./SingleDeposit";
+import { isEmpty } from "lodash";
 
 const PaymentHistory = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
+  const { success, error, dpdloading } = useSelector(
+    (state) => state.deletepayment
+  );
+
   const { allDeposit, allWithdraw } = useSelector((state) => state.allpayment);
 
   let totalDepsoit = 0;
@@ -27,10 +34,22 @@ const PaymentHistory = () => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
+  // useEffect(() => {
+
+  // }, [allDeposit, allWithdraw]);
+
   useEffect(() => {
-    dispatch(getAllDeposit());
-    dispatch(getAllWithdraw());
-  }, [allDeposit, allWithdraw]);
+    if (!isEmpty(user)) {
+      dispatch(getAllDeposit(user.authToken));
+      dispatch(getAllWithdraw(user.authToken));
+    }
+  }, []);
+
+  const callDepositeApi = () => {
+    console.log("callDepositeApi");
+    dispatch(getAllDeposit(user.authToken));
+  };
+
   return (
     <div className="px-5  sm:px-12 md:px-12 pt-16 md:py-20">
       <div className="w-full flex justify-center">
@@ -56,7 +75,13 @@ const PaymentHistory = () => {
           <div className="my-5">
             {allDeposit &&
               allDeposit.map((val, ind) => {
-                return <SingleDeposit val={val} key={ind} />;
+                return (
+                  <SingleDeposit
+                    val={val}
+                    key={ind}
+                    callDepositeApi={callDepositeApi}
+                  />
+                );
               })}
           </div>
           <div className="text-center w-full">

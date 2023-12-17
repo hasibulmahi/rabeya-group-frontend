@@ -16,7 +16,7 @@ const Login = ({ role, roleType, setRoleType, setRole }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useNavigate();
-  const { loading, isAuthenticated, error } = useSelector(
+  const { loading, isAuthenticated, error, user } = useSelector(
     (state) => state.user
   );
 
@@ -69,10 +69,14 @@ const Login = ({ role, roleType, setRoleType, setRole }) => {
       toast.error(error);
       dispatch(clearError());
     }
-    if (isAuthenticated) {
-      return history(redirect);
-    }
+    // if (isAuthenticated) {
+    //   return history(redirect);
+    // }
   }, [isAuthenticated, error]);
+
+  if (user) {
+    return history("/");
+  }
 
   return (
     <>

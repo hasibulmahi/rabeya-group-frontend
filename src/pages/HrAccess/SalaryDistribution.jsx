@@ -14,6 +14,8 @@ import { toast } from "react-toastify";
 import Loading from "../../components/Loading";
 
 const SalaryDistribution = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
   const { employee, aloading } = useSelector((state) => state.employee);
   const { loading, success, error } = useSelector((state) => state.salary);
@@ -81,7 +83,7 @@ const SalaryDistribution = () => {
       toast(error);
       dispatch(clearError);
     }
-    dispatch(getEmployee(keyword));
+    dispatch(getEmployee(keyword, user.authToken));
   }, [success, error]);
   return (
     <>

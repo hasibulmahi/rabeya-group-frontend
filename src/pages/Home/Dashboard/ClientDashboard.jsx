@@ -24,9 +24,7 @@ import { createClientNotification } from "../../../redux/actions/clientAction";
 
 const ClientDashboard = () => {
   const dispatch = useDispatch();
-  const user = localStorage.getItem("userData")
-    ? JSON.parse(localStorage.getItem("userData"))
-    : null;
+  const { isAuthenticated, user } = useSelector((state) => state.user);
   const { project, ploading, success, error } = useSelector(
     (state) => state.project
   );
@@ -184,7 +182,6 @@ const ClientDashboard = () => {
     clearInterval(interval.current);
     localStorage.setItem("items", JSON.stringify(todo));
 
-    dispatch(getClientProject());
     if (project) {
       setData({
         labels:
@@ -230,6 +227,10 @@ const ClientDashboard = () => {
       dispatch(clearError());
     }
   }, [todo, error, success, project, cnsuccess, cnerror]);
+
+  useEffect(() => {
+    dispatch(getClientProject(user.authToken));
+  }, []);
 
   return (
     <>
